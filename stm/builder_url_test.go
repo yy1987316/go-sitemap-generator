@@ -501,3 +501,47 @@ func BenchmarkGenerateXML(b *testing.B) {
 		}
 	}
 }
+
+func TestOmitOpts(t *testing.T) {
+	opts := Options{}
+	opts.SetOmitLastMod(true)
+	opts.SetOmitChangeFreq(true)
+	opts.SetOmitPriority(true)
+
+	smu, err := NewSitemapURL(&opts, URL{{"loc", "path"}, {"host", "https://example.com"}})
+
+	if err != nil {
+		t.Fatalf(`Fatal to validate! This is a critical error: %v`, err)
+	}
+
+	doc := etree.NewDocument()
+	t.Logf("sitemap tree generated is: %s", smu.XML())
+	doc.ReadFromBytes(smu.XML())
+
+	var elm *etree.Element
+	url := doc.SelectElement("url")
+
+	elm = url.SelectElement("loc")
+	if elm == nil {
+		t.Errorf(`Failed to generate xml that loc element is blank: %v`, elm)
+	}
+	if elm != nil && elm.Text() != "https://example.com/path" {
+		t.Errorf(`Failed to generate xml thats deferrent value in loc element: %v`, elm.Text())
+	}
+
+	// the following 3 elements should be nil
+	elm = url.SelectElement("priority")
+	if elm != nil {
+		t.Errorf(`Failed to generate xml that omits the default priority element: %v`, elm)
+	}
+
+	elm = url.SelectElement("changefreq")
+	if elm != nil {
+		t.Errorf(`Failed to generate xml that omits the default changefreq element: %v`, elm)
+	}
+
+	elm = url.SelectElement("lastmod")
+	if elm != nil {
+		t.Errorf(`Failed to generate xml that omits the default lastmod element: %v`, elm)
+	}
+}

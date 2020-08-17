@@ -18,17 +18,20 @@ func NewOptions() *Options {
 
 // Options exists for the Sitemap struct.
 type Options struct {
-	defaultHost  string
-	sitemapsHost string
-	publicPath   string
-	sitemapsPath string
-	filename     string
-	verbose      bool
-	compress     bool
-	pretty       bool
-	adp          Adapter
-	nmr          *Namer
-	loc          *Location
+	defaultHost    string
+	sitemapsHost   string
+	publicPath     string
+	sitemapsPath   string
+	filename       string
+	verbose        bool
+	compress       bool
+	pretty         bool
+	adp            Adapter
+	nmr            *Namer
+	loc            *Location
+	omitLastMod    bool
+	omitChangeFreq bool
+	omitPriority   bool
 }
 
 // SetDefaultHost sets that arg from Sitemap.Finalize method
@@ -74,6 +77,21 @@ func (opts *Options) SetPretty(pretty bool) {
 // SetAdapter sets that arg from Sitemap.SetAdapter method
 func (opts *Options) SetAdapter(adp Adapter) {
 	opts.adp = adp
+}
+
+// SetOmitLastMod decides to use default lastmod or not
+func (opts *Options) SetOmitLastMod(omit bool) {
+	opts.omitLastMod = omit
+}
+
+// SetOmitChangeFreq decides to use default changefreq or not
+func (opts *Options) SetOmitChangeFreq(omit bool) {
+	opts.omitChangeFreq = omit
+}
+
+// SetOmitPriority decides to use default priority or not
+func (opts *Options) SetOmitPriority(omit bool) {
+	opts.omitPriority = omit
 }
 
 // SitemapsHost sets that arg from Sitemap.SitemapsHost method

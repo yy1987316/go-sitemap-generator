@@ -120,6 +120,11 @@ sm.SetAdapter(&stm.S3Adapter{Region: "ap-northeast-1", Bucket: "your-bucket", AC
 
 // Change the output filename
 sm.SetFilename("new_filename")
+
+// Omit default lastmod/changefreq/priority element(s)
+opts.SetOmitLastMod(true)
+opts.SetOmitChangeFreq(true)
+opts.SetOmitPriority(true)
 ```
 
 ### Upload sitemap to S3
