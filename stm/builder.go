@@ -15,6 +15,7 @@ type Builder interface {
 	XMLContent() []byte
 	Content() []byte
 	Add(interface{}) BuilderError
+	AddSitemap(interface{}) BuilderError
 	Write()
 }
 

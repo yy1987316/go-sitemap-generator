@@ -113,6 +113,11 @@ func (sm *Sitemap) Add(url interface{}) *Sitemap {
 	return sm
 }
 
+func (sm *Sitemap) AddSitemap(url interface{}) *Sitemap {
+	sm.bldrs.AddSitemap(url)
+	return sm
+}
+
 // XMLContent returns the XML content of the sitemap
 func (sm *Sitemap) XMLContent() []byte {
 	return sm.bldr.XMLContent()

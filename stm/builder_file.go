@@ -56,6 +56,11 @@ func (b *BuilderFile) Add(url interface{}) BuilderError {
 	return nil
 }
 
+// blank method
+func (b *BuilderFile) AddSitemap(url interface{}) BuilderError {
+	return nil
+}
+
 // isFileCanFit checks bytes to bigger than consts values.
 func (b *BuilderFile) isFileCanFit(bytes []byte) bool {
 	r := len(append(b.content, bytes...)) < MaxSitemapFilesize

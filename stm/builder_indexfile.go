@@ -1,6 +1,8 @@
 package stm
 
-import "bytes"
+import (
+	"bytes"
+)
 
 // NewBuilderIndexfile returns the created the BuilderIndexfile's pointer
 func NewBuilderIndexfile(opts *Options, loc *Location) *BuilderIndexfile {
@@ -25,6 +27,14 @@ func (b *BuilderIndexfile) Add(link interface{}) BuilderError {
 	b.content = append(b.content, smu.XML()...)
 
 	b.totalcnt += bldr.linkcnt
+	b.linkcnt++
+	return nil
+}
+
+func (b *BuilderIndexfile) AddSitemap(url interface{}) BuilderError {
+	smu := NewSitemapIndexURL(b.opts, url.(URL))
+	b.content = append(b.content, smu.XML()...)
+
 	b.linkcnt++
 	return nil
 }
