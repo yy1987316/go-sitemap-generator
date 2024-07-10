@@ -19,21 +19,29 @@ type BuilderIndexfile struct {
 }
 
 // Add method joins old bytes with creates bytes by it calls from Sitemap.Finalize method.
-func (b *BuilderIndexfile) Add(link interface{}) BuilderError {
+func (b *BuilderIndexfile) Add(link interface{}, atBegin bool) BuilderError {
 	bldr := link.(*BuilderFile)
 	bldr.Write()
 
 	smu := NewSitemapIndexURL(b.opts, URL{{"loc", bldr.loc.URL()}})
-	b.content = append(b.content, smu.XML()...)
+	if atBegin {
+		b.content = append(smu.XML(), b.content...)
+	} else {
+		b.content = append(b.content, smu.XML()...)
+	}
 
 	b.totalcnt += bldr.linkcnt
 	b.linkcnt++
 	return nil
 }
 
-func (b *BuilderIndexfile) AddSitemap(url interface{}) BuilderError {
+func (b *BuilderIndexfile) AddSitemap(url interface{}, atBegin bool) BuilderError {
 	smu := NewSitemapIndexURL(b.opts, url.(URL))
-	b.content = append(b.content, smu.XML()...)
+	if atBegin {
+		b.content = append(smu.XML(), b.content...)
+	} else {
+		b.content = append(b.content, smu.XML()...)
+	}
 
 	b.linkcnt++
 	return nil

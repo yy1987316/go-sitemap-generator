@@ -102,7 +102,7 @@ func (sm *Sitemap) Add(url interface{}) *Sitemap {
 		sm.bldr = NewBuilderFile(sm.opts, sm.opts.Location())
 	}
 
-	err := sm.bldr.Add(url)
+	err := sm.bldr.Add(url, false)
 	if err != nil {
 		if err.FullError() {
 			sm.Finalize()
@@ -114,7 +114,7 @@ func (sm *Sitemap) Add(url interface{}) *Sitemap {
 }
 
 func (sm *Sitemap) AddSitemap(url interface{}) *Sitemap {
-	sm.bldrs.AddSitemap(url)
+	sm.bldrs.AddSitemap(url, false)
 	return sm
 }
 
@@ -126,7 +126,7 @@ func (sm *Sitemap) XMLContent() []byte {
 // Finalize writes sitemap and index files if it had some
 // specific condition in BuilderFile struct.
 func (sm *Sitemap) Finalize() *Sitemap {
-	sm.bldrs.Add(sm.bldr)
+	sm.bldrs.Add(sm.bldr, true)
 	sm.bldrs.Write()
 	sm.bldr = nil
 	return sm

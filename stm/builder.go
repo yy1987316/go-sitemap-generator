@@ -14,8 +14,8 @@ type BuilderError interface {
 type Builder interface {
 	XMLContent() []byte
 	Content() []byte
-	Add(interface{}) BuilderError
-	AddSitemap(interface{}) BuilderError
+	Add(interface{}, bool) BuilderError
+	AddSitemap(interface{}, bool) BuilderError
 	Write()
 }
 

@@ -33,7 +33,7 @@ type BuilderFile struct {
 }
 
 // Add method joins old bytes with creates bytes by it calls from Sitemap.Add method.
-func (b *BuilderFile) Add(url interface{}) BuilderError {
+func (b *BuilderFile) Add(url interface{}, atBegin bool) BuilderError {
 	u := MergeMap(url.(URL),
 		URL{{"host", b.loc.opts.defaultHost}},
 	)
@@ -51,13 +51,17 @@ func (b *BuilderFile) Add(url interface{}) BuilderError {
 		return &builderFileError{error: err, full: true}
 	}
 
-	b.content = append(b.content, bytes...)
+	if atBegin {
+		b.content = append(bytes, b.content...)
+	} else {
+		b.content = append(b.content, bytes...)
+	}
 
 	return nil
 }
 
 // blank method
-func (b *BuilderFile) AddSitemap(url interface{}) BuilderError {
+func (b *BuilderFile) AddSitemap(url interface{}, atBegin bool) BuilderError {
 	return nil
 }
 
