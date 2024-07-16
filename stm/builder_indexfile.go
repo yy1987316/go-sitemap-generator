@@ -20,6 +20,11 @@ type BuilderIndexfile struct {
 
 // Add method joins old bytes with creates bytes by it calls from Sitemap.Finalize method.
 func (b *BuilderIndexfile) Add(link interface{}, atBegin bool) BuilderError {
+	// no url in the sitemap
+	if link == nil {
+		return nil
+	}
+
 	bldr := link.(*BuilderFile)
 	bldr.Write()
 
